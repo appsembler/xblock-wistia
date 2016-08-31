@@ -22,9 +22,9 @@ class WistiaVideoXBlock(XBlock):
     )
 
     href = String(
-        default=None,
+        default='',
         display_name=_('Video URL'),
-        help=_('URL of the video page.\nE.g. https://edx.wistia.com/medias/12345abcde'),
+        help=_('URL of the video page.\nE.g. https://example.wistia.com/medias/12345abcde'),
         scope=Scope.content
     )
 
@@ -48,9 +48,8 @@ class WistiaVideoXBlock(XBlock):
         Create a fragment used to display the edit view in the Studio.
         """
         html_str = self.resource_string('static/html/studio.html')
-        href = self.href or ''
         frag = Fragment(unicode(html_str).format(
-                        href=href, href_display_name=self.fields['href'].display_name,
+            href=self.href, href_display_name=self.fields['href'].display_name,
                         href_help=self.fields['href'].help,
                         media_id=self.media_id)
                         )
