@@ -1,4 +1,8 @@
-"""TO-DO: Write a description of what this XBlock is."""
+"""
+Wistia video XBlock provides a convenient way to place videos hosted on
+Wistia platform.
+All you need to provide is video url, this XBlock doest the rest for you.
+"""
 
 import pkg_resources
 
@@ -10,9 +14,6 @@ _ = lambda text: text
 
 
 class WistiaVideoXBlock(XBlock):
-    """
-    TO-DO: document what your XBlock does.
-    """
 
     display_name = String(
         default='Wistia video',
