@@ -16,6 +16,8 @@ from xblockutils.studio_editable import StudioEditableXBlockMixin
 
 _ = lambda text: text
 
+# From official Wistia documentation. May change in the future
+# https://wistia.com/doc/construct-an-embed-code#the_regex
 VIDEO_URL_RE = re.compile(r'https?:\/\/(.+)?(wistia.com|wi.st)\/(medias|embed)\/.*')
 
 
