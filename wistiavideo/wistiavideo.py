@@ -5,14 +5,18 @@ All you need to provide is video url, this XBlock doest the rest for you.
 """
 
 import pkg_resources
+import re
 
 from xblock.core import XBlock
 from xblock.fields import Scope, Integer, String
 from xblock.fragment import Fragment
+from xblock.validation import ValidationMessage
 
 from xblockutils.studio_editable import StudioEditableXBlockMixin
 
 _ = lambda text: text
+
+VIDEO_URL_RE = re.compile(r'https?:\/\/(.+)?(wistia.com|wi.st)\/(medias|embed)\/.*')
 
 
 class WistiaVideoXBlock(StudioEditableXBlockMixin, XBlock):
@@ -27,7 +31,7 @@ class WistiaVideoXBlock(StudioEditableXBlockMixin, XBlock):
     href = String(
         default='',
         display_name=_('Video URL'),
-        help=_('URL of the video page.\nE.g. https://example.wistia.com/medias/12345abcde'),
+        help=_('URL of the video page. E.g. https://example.wistia.com/medias/12345abcde'),
         scope=Scope.content
     )
 
@@ -37,11 +41,18 @@ class WistiaVideoXBlock(StudioEditableXBlockMixin, XBlock):
     def media_id(self):
         """
         Extracts Wistia's media hashed id from the media url.
-        E.g. https://edx.wistia.com/medias/12345abcde -> 12345abcde
+        E.g. https://example.wistia.com/medias/12345abcde -> 12345abcde
         """
         if self.href:
             return self.href.split('/')[-1]
         return ''
+
+    def validate_field_data(self, validation, data):
+        if data.href <> '' and not VIDEO_URL_RE.match(data.href):
+            validation.add(ValidationMessage(
+                ValidationMessage.ERROR,
+                _(u"Incorrect video url, please recheck")
+            ))
 
     def resource_string(self, path):
         """Handy helper for getting resources from our kit."""
