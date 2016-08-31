@@ -10,15 +10,17 @@ from xblock.core import XBlock
 from xblock.fields import Scope, Integer, String
 from xblock.fragment import Fragment
 
+from xblockutils.studio_editable import StudioEditableXBlockMixin
+
 _ = lambda text: text
 
 
-class WistiaVideoXBlock(XBlock):
+class WistiaVideoXBlock(StudioEditableXBlockMixin, XBlock):
 
     display_name = String(
         default='Wistia video',
-        display_name=_('Display Name'),
-        help=_('Display name for this module'),
+        display_name=_('Component Display Name'),
+        help=_('The name students see. This name appears in the course ribbon and as a header for the video.'),
         scope=Scope.settings,
     )
 
@@ -28,6 +30,8 @@ class WistiaVideoXBlock(XBlock):
         help=_('URL of the video page.\nE.g. https://example.wistia.com/medias/12345abcde'),
         scope=Scope.content
     )
+
+    editable_fields = ('display_name', 'href')
 
     @property
     def media_id(self):
@@ -43,30 +47,6 @@ class WistiaVideoXBlock(XBlock):
         """Handy helper for getting resources from our kit."""
         data = pkg_resources.resource_string(__name__, path)
         return data.decode("utf8")
-
-    def studio_view(self, context):
-        """
-        Create a fragment used to display the edit view in the Studio.
-        """
-        html_str = self.resource_string('static/html/studio.html')
-        frag = Fragment(unicode(html_str).format(
-            href=self.href, href_display_name=self.fields['href'].display_name,
-                        href_help=self.fields['href'].help,
-                        media_id=self.media_id)
-                        )
-        frag.add_javascript(self.resource_string('static/js/src/studio.js'))
-        frag.initialize_js('WistiaVideoXBlock')
-
-        return frag
-
-    @XBlock.json_handler
-    def studio_submit(self, data, suffix=''):
-        """
-        Called when submitting the form in Studio.
-        """
-        self.href = data.get('href')
-
-        return {'result': 'success'}
 
     def student_view(self, context=None):
         """
