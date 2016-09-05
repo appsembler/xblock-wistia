@@ -50,7 +50,7 @@ class WistiaVideoXBlock(StudioEditableXBlockMixin, XBlock):
         return ''
 
     def validate_field_data(self, validation, data):
-        if data.href <> '' and not VIDEO_URL_RE.match(data.href):
+        if data.href != '' and not VIDEO_URL_RE.match(data.href):
             validation.add(ValidationMessage(
                 ValidationMessage.ERROR,
                 _(u"Incorrect video url, please recheck")
