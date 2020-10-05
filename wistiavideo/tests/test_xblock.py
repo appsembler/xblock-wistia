@@ -3,7 +3,7 @@ import unittest
 
 from xblock.runtime import KvsFieldData, DictKeyValueStore
 from xblock.test.tools import (
-    assert_in, assert_equals, assert_true, assert_false, TestRuntime
+    TestRuntime
 )
 
 from wistiavideo import WistiaVideoXBlock
@@ -22,13 +22,13 @@ class WistiaXblockTests(WistiaXblockBaseTests, unittest.TestCase):
     def test_media_id_property(self):
         xblock = self.make_xblock()
         xblock.href = 'https://example.wistia.com/medias/12345abcde'
-        assert_equals(xblock.media_id, '12345abcde')
+        self.assertEquals(xblock.media_id, '12345abcde')
 
     def test_student_view(self):
         xblock = self.make_xblock()
 
         student_view_html = xblock.student_view()
-        assert_in(xblock.media_id, student_view_html.body_html())
+        self.assertIn(xblock.media_id, student_view_html.body_html())
 
 
 class WistiaXblockValidationTests(WistiaXblockBaseTests, unittest.TestCase):
@@ -45,7 +45,7 @@ class WistiaXblockValidationTests(WistiaXblockBaseTests, unittest.TestCase):
             validation.add = Mock()
             xblock.validate_field_data(validation, data)
 
-            assert_false(validation.add.called)
+            self.assertFalse(validation.add.called)
 
     @patch('xblock.validation.ValidationMessage')
     def test_validate_incorrect_inputs(self, ValidationMessage):
@@ -56,4 +56,4 @@ class WistiaXblockValidationTests(WistiaXblockBaseTests, unittest.TestCase):
         validation.add = Mock()
 
         xblock.validate_field_data(validation, data)
-        assert_true(validation.add.called)
+        self.assertTrue(validation.add.called)
