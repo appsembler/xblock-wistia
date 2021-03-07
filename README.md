@@ -42,7 +42,7 @@ Click the *Edit* button to open up a form where you can enter module title and a
 ## Running Tests
 
 ```bash
-nosetests wistiavideo
+python run_tests.py
 ```
 
 ## License
