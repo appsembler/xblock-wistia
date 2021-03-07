@@ -1,1 +1,24 @@
 /* CSS for WistiaVideoXBlock */
+
+.wistiavideo_block .wistia_responsive_transcripts {
+    margin: 1rem 0;
+}
+
+.wistiavideo_block .wistia_responsive_transcripts .wistia_transcripts_download {
+    background: rgba(30, 123, 237, 0.9);
+    border-radius: 0.1875rem;
+    padding: 11px 18px 11px 16px;
+}
+
+.wistiavideo_block .wistia_responsive_transcripts .wistia_transcripts_download,
+.wistiavideo_block .wistia_responsive_transcripts .wistia_transcripts_download:hover,
+.wistiavideo_block .wistia_responsive_transcripts .wistia_transcripts_download:active,
+.wistiavideo_block .wistia_responsive_transcripts .wistia_transcripts_download:visited {
+    color: white;
+}
+
+.wistiavideo_block .wistia_responsive_transcripts .wistia_transcripts_download:hover,
+.wistiavideo_block .wistia_responsive_transcripts .wistia_transcripts_download:active,
+.wistiavideo_block .wistia_responsive_transcripts .wistia_transcripts_download:visited {
+    background: rgba(30, 123, 237, 1);
+}
