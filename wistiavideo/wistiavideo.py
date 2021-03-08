@@ -113,7 +113,7 @@ class CaptionDownloadMixin:
         return Response(
             body=zip_file.read_bytes(),
             headerlist=[
-                ("Content-Type", "text/plain; charset=UTF-8"),
+                ("Content-Type", "application/zip; charset=UTF-8"),
                 ("Content-Disposition", "attachment; filename=captions_{}.zip".format(
                     self.media_id,
                 )),

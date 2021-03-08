@@ -69,7 +69,7 @@ class WistiaXblockTranscriptsDownloadTests(WistiaXblockBaseTests, unittest.TestC
 
         self.assertEqual(response.status, "200 OK")
         self.assertNotEqual(response.body, b"")
-        self.assertEqual(response.headers["Content-Type"], "text/plain; charset=UTF-8")
+        self.assertEqual(response.headers["Content-Type"], "application/zip; charset=UTF-8")
         self.assertEqual(
             response.headers["Content-Disposition"],
             "attachment; filename=captions_{}.zip".format(media_id)
