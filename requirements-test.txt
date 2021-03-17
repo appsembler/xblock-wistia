@@ -1,0 +1,7 @@
+-r requirements.txt
+
+django-pyfs==3.0
+mock==4.0.3
+pytest-django==4.1.0
+pytest==6.2.2
+xblock-sdk==0.2.2

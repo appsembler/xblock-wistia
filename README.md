@@ -41,7 +41,7 @@ Click the *Edit* button to open up a form where you can enter module title and a
 
 ## Running Tests
 
-Before running tests, install `pytest` and `pytest-django`.
+Before running tests, run `pip install -r requirements-test.txt`.
 
 ```bash
 DJANGO_SETTINGS_MODULE=test_settings pytest wistiavideo
