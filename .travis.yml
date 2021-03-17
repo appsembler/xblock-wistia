@@ -1,5 +1,11 @@
 language: python
 python:
- - "3.5"
+ - "3.6"
 
-script: nosetests
+env:
+  - PYTHONPATH=`pwd`
+
+install:
+  - pip install -r requirements-test.txt
+
+script: DJANGO_SETTINGS_MODULE=test_settings pytest wistiavideo
