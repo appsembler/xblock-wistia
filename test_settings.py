@@ -1,4 +1,4 @@
-from workbench settings import *
+from workbench.settings import *
 from django.conf.global_settings import LOGGING
 
 DEBUG = True
