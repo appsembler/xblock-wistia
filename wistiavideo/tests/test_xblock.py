@@ -46,6 +46,28 @@ class WistiaXblockTranscriptsDownloadTests(WistiaXblockBaseTests, unittest.TestC
     def test_download_button_exists(self):
         self.assertIn("wistia_transcripts_download", self.__render_html())
 
+    def test_access_token_not_set(self):
+        media_id = "12345abcde"
+        href = "https://example.wistia.com/medias/{}".format(media_id)
+
+        xblock = self.make_xblock(href=href)
+        rendered_html = xblock.student_view().body_html()
+
+        self.assertFalse(xblock.has_access_token)
+        self.assertIn("wistia_transcripts_download", rendered_html)
+        self.assertIn('data-api-enabled="False"', rendered_html)
+
+    def test_access_token_set(self):
+        media_id = "12345abcde"
+        href = "https://example.wistia.com/medias/{}".format(media_id)
+
+        xblock = self.make_xblock(href=href, access_token="token")
+        rendered_html = xblock.student_view().body_html()
+
+        self.assertTrue(xblock.has_access_token)
+        self.assertIn("wistia_transcripts_download", rendered_html)
+        self.assertIn('data-api-enabled="True"', rendered_html)
+
     @patch("wistiavideo.wistiavideo.requests")
     def test_send_request(self, mock_requests):
         media_id = "12345abcde"
