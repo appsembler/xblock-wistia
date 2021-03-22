@@ -18,7 +18,7 @@ function WistiaVideoXBlock(runtime, element) {
 
         const targetUrl = apiEnabled ? downloadHandlerUrl : `${captionUrlBase}?lang=${currentCaptionLanguage}`;
 
-        window.open(targetUrl, '_blank');
+        window.open(targetUrl, '_blank', 'noopener');
     });
 
     window._wq = window._wq || [];
