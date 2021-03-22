@@ -57,7 +57,7 @@ class CaptionDownloadMixin:
 
     @property
     def has_access_token(self):
-        return self.access_token != ''
+        return bool(self.access_token)
 
     @staticmethod
     def __compress_captions(srt_files):
