@@ -55,6 +55,10 @@ class CaptionDownloadMixin:
 
         return requests.get(url, params={"access_token": self.access_token}).json()
 
+    @property
+    def has_access_token(self):
+        return bool(self.access_token)
+
     @staticmethod
     def __compress_captions(srt_files):
         """
@@ -171,6 +175,7 @@ class WistiaVideoXBlock(StudioEditableXBlockMixin, CaptionDownloadMixin, XBlock)
         context = {
             "download_transcripts_text": _("Download transcripts"),
             "media_id": self.media_id,
+            "has_access_token": self.has_access_token,
         }
 
         frag = Fragment(loader.render_template('static/html/wistiavideo.html', context))
