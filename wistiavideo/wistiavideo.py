@@ -173,7 +173,8 @@ class WistiaVideoXBlock(StudioEditableXBlockMixin, CaptionDownloadMixin, XBlock)
         """
 
         context = {
-            "download_transcripts_text": _("Download transcripts"),
+            "download_captions_text": _("Download captions"),
+            "download_transcripts_text": _("Download transcript"),
             "media_id": self.media_id,
             "has_access_token": self.has_access_token,
         }

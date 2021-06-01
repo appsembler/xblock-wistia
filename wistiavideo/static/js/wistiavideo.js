@@ -1,24 +1,32 @@
 function WistiaVideoXBlock(runtime, element) {
     "use strict";
 
-    const downloadBtnSelector = '.wistiavideo_block .wistia_responsive_transcripts .wistia_transcripts_download';
-    const wistiaEmbeddedSelector = ".wistiavideo_block .wistia_responsive_padding .wistia_responsive_wrapper .wistia_embed";
+    const captionsDownloadBtnSelector = $(element).find(".wistia_captions_download");
+    const transcriptsDownloadBtnSelector = $(element).find(".wistia_transcripts_download");
+    const wistiaEmbeddedSelector = $(element).find(".wistia_embed");
 
     const mediaId = $(wistiaEmbeddedSelector).data("mediaId");
-    const apiEnabled = $(downloadBtnSelector).data("apiEnabled") === 'True';
+    const apiEnabled = $(captionsDownloadBtnSelector).data("apiEnabled") === 'True';
 
-    const downloadHandlerUrl = runtime.handlerUrl(element, 'download_captions');
-    const captionUrlBase = `http://fast.wistia.net/embed/captions/${mediaId}.vtt`;
+    const downloadCaptionsHandlerUrl = runtime.handlerUrl(element, 'download_captions');
+
+    const noTranscriptsMessage = "This media does not have a transcript."
+    const transcriptsUrl = `http://fast.wistia.net/embed/transcripts/${mediaId}`;
+    const captionsUrlBase = `http://fast.wistia.net/embed/captions/${mediaId}.vtt`;
 
     let embeddedVideo = undefined;
     let currentCaptionLanguage = '';
 
-    $(downloadBtnSelector, element).click(function (e) {
+    $(captionsDownloadBtnSelector, element).click(function (e) {
         e.preventDefault();
 
-        const targetUrl = apiEnabled ? downloadHandlerUrl : `${captionUrlBase}?lang=${currentCaptionLanguage}`;
-
+        const targetUrl = apiEnabled ? downloadCaptionsHandlerUrl : `${captionsUrlBase}?lang=${currentCaptionLanguage}`;
         window.open(targetUrl, '_blank', 'noopener');
+    });
+
+    $(transcriptsDownloadBtnSelector, element).click(function (e) {
+        e.preventDefault();
+        window.open(transcriptsUrl, '_blank', 'noopener');
     });
 
     window._wq = window._wq || [];
@@ -39,7 +47,19 @@ function WistiaVideoXBlock(runtime, element) {
                 currentCaptionLanguage = captions.options.language;
 
                 // Show the download button
-                $(downloadBtnSelector).show();
+                $(captionsDownloadBtnSelector).show();
+            }
+        });
+
+        fetch(transcriptsUrl).then(function(response) {
+            if (response.ok) {
+                response.text().then(function(body) {
+                    if (!body.includes(noTranscriptsMessage)) {
+                        $(transcriptsDownloadBtnSelector).show();
+                    }
+                }).catch(function(error) {
+                    console.log(error)
+                });
             }
         });
     }});
