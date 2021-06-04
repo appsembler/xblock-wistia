@@ -11,8 +11,8 @@ function WistiaVideoXBlock(runtime, element) {
     const downloadCaptionsHandlerUrl = runtime.handlerUrl(element, 'download_captions');
 
     const noTranscriptsMessage = "This media does not have a transcript."
-    const transcriptsUrl = `http://fast.wistia.net/embed/transcripts/${mediaId}`;
-    const captionsUrlBase = `http://fast.wistia.net/embed/captions/${mediaId}.vtt`;
+    const transcriptsUrl = `https://fast.wistia.net/embed/transcripts/${mediaId}`;
+    const captionsUrlBase = `https://fast.wistia.net/embed/captions/${mediaId}.vtt`;
 
     let embeddedVideo = undefined;
     let currentCaptionLanguage = '';
