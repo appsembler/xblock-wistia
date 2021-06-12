@@ -6,7 +6,8 @@
       <div id="wistia_{{ media_id }}" data-media-id="{{ media_id }}" class="wistia_embed wistia_async_{{ media_id }} videoFoam=true" style="height:100%;width:100%">&nbsp;</div>
     </div>
   </div>
-  <p class="wistia_responsive_transcripts">
-    <a href="#" style="display: none;" class="wistia_transcripts_download" data-api-enabled="{{ has_access_token }}">{{ download_transcripts_text }}</a>
+  <p class="wistia_responsive_download_buttons">
+    <a href="#" style="display: none;" class="download_button wistia_captions_download" data-api-enabled="{{ has_access_token }}">{{ download_captions_text }}</a>
+    <a href="#" style="display: none;" class="download_button wistia_transcripts_download" data-api-enabled="{{ has_access_token }}">{{ download_transcripts_text }}</a>
   </p>
 </div>

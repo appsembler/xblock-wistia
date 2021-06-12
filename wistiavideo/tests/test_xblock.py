@@ -41,9 +41,10 @@ class WistiaXblockTranscriptsDownloadTests(WistiaXblockBaseTests, unittest.TestC
         return xblock.student_view().body_html()
 
     def test_transcripts_block_exists(self):
-        self.assertIn("wistia_responsive_transcripts", self.__render_html())
+        self.assertIn("wistia_responsive_download_buttons", self.__render_html())
 
-    def test_download_button_exists(self):
+    def test_download_buttons_exist(self):
+        self.assertIn("wistia_captions_download", self.__render_html())
         self.assertIn("wistia_transcripts_download", self.__render_html())
 
     def test_access_token_not_set(self):
@@ -54,6 +55,8 @@ class WistiaXblockTranscriptsDownloadTests(WistiaXblockBaseTests, unittest.TestC
         rendered_html = xblock.student_view().body_html()
 
         self.assertFalse(xblock.has_access_token)
+        self.assertIn("wistia_captions_download", rendered_html)
+        self.assertIn('data-api-enabled="False"', rendered_html)
         self.assertIn("wistia_transcripts_download", rendered_html)
         self.assertIn('data-api-enabled="False"', rendered_html)
 
@@ -65,6 +68,8 @@ class WistiaXblockTranscriptsDownloadTests(WistiaXblockBaseTests, unittest.TestC
         rendered_html = xblock.student_view().body_html()
 
         self.assertTrue(xblock.has_access_token)
+        self.assertIn("wistia_captions_download", rendered_html)
+        self.assertIn('data-api-enabled="True"', rendered_html)
         self.assertIn("wistia_transcripts_download", rendered_html)
         self.assertIn('data-api-enabled="True"', rendered_html)
 
