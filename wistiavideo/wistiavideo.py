@@ -50,14 +50,14 @@ class AssetsDownloadMixin:
     show_captions_download = Boolean(
         default=False,
         display_name=_('Captions download button visible'),
-        help=_('The API key related to the account where the video uploaded to.'),
+        help=_('Show download captions button.'),
         scope=Scope.content,
     )
 
     show_transcripts_download = Boolean(
         default=True,
         display_name=_('Transcripts download button visible'),
-        help=_('The API key related to the account where the video uploaded to.'),
+        help=_('Show download transcripts button.'),
         scope=Scope.content,
     )
 
