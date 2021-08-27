@@ -7,7 +7,7 @@
     </div>
   </div>
   <p class="wistia_responsive_download_buttons">
-    <a href="#" style="display: none;" class="download_button wistia_captions_download" data-api-enabled="{{ has_access_token }}">{{ download_captions_text }}</a>
-    <a href="#" style="display: none;" class="download_button wistia_transcripts_download" data-api-enabled="{{ has_access_token }}">{{ download_transcripts_text }}</a>
+    {% if show_captions_download %}<a href="#" style="display: none;" class="download_button wistia_captions_download" data-api-enabled="{{ has_access_token }}">{{ download_captions_text }}</a>{% endif %}
+    {% if show_transcripts_download %}<a href="#" style="display: none;" class="download_button wistia_transcripts_download">{{ download_transcripts_text }}</a>{% endif %}
   </p>
 </div>
