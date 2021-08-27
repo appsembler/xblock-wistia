@@ -27,7 +27,7 @@ You can get video url for the Xblock directly from your browser's address bar.
 
 ![Wistia video URL](doc/img/wistia_video_url.png)
 
-For better students experience make sure all player controls are enabled and video captions are uploaded.
+For better students experience make sure all player controls are enabled, video captions, and video transcripts are uploaded.
 
 ![Wistia customize video](doc/img/wistia_customize_video.png)
 
