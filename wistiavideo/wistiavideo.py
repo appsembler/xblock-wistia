@@ -15,7 +15,7 @@ from zipfile import ZipFile, ZIP_DEFLATED
 from pathlib import Path
 
 from xblock.core import XBlock
-from xblock.fields import Scope, String
+from xblock.fields import Scope, String, Boolean
 from xblock.fragment import Fragment
 from xblock.validation import ValidationMessage
 
@@ -31,12 +31,14 @@ loader = ResourceLoader(__name__)
 VIDEO_URL_RE = re.compile(r'https?:\/\/(.+)?(wistia.com|wi.st)\/(medias|embed)\/.*')
 
 
-class CaptionDownloadMixin:
+class AssetsDownloadMixin:
     """
-    Mixin providing utility functions and handler to download captions from Wistia.
-    
+    Mixin providing utility functions and handler to download captions and transcripts from Wistia.
+
     The utility mixin is heavily depending on the media ID property provided by the XBlock.
     """
+
+    __slots__ = ("media_id",)
 
     access_token = String(
         default='',
@@ -45,7 +47,25 @@ class CaptionDownloadMixin:
         scope=Scope.content,
     )
 
-    caption_download_editable_fields = ('access_token',)
+    show_captions_download = Boolean(
+        default=False,
+        display_name=_('Captions download button visible'),
+        help=_('Show download captions button.'),
+        scope=Scope.content,
+    )
+
+    show_transcripts_download = Boolean(
+        default=True,
+        display_name=_('Transcripts download button visible'),
+        help=_('Show download transcripts button.'),
+        scope=Scope.content,
+    )
+
+    asset_download_editable_fields = (
+        'access_token',
+        'show_captions_download',
+        'show_transcripts_download',
+    )
 
     def __send_request(self, url):
         """
@@ -125,7 +145,7 @@ class CaptionDownloadMixin:
         )
 
 
-class WistiaVideoXBlock(StudioEditableXBlockMixin, CaptionDownloadMixin, XBlock):
+class WistiaVideoXBlock(StudioEditableXBlockMixin, AssetsDownloadMixin, XBlock):
 
     display_name = String(
         default='Wistia video',
@@ -142,7 +162,7 @@ class WistiaVideoXBlock(StudioEditableXBlockMixin, CaptionDownloadMixin, XBlock)
     )
 
     editable_fields = ('display_name', 'href')
-    editable_fields += CaptionDownloadMixin.caption_download_editable_fields
+    editable_fields += AssetsDownloadMixin.asset_download_editable_fields
 
     @property
     def media_id(self):
@@ -175,8 +195,10 @@ class WistiaVideoXBlock(StudioEditableXBlockMixin, CaptionDownloadMixin, XBlock)
         context = {
             "download_captions_text": _("Download captions"),
             "download_transcripts_text": _("Download transcript"),
-            "media_id": self.media_id,
             "has_access_token": self.has_access_token,
+            "media_id": self.media_id,
+            "show_captions_download": self.show_captions_download,
+            "show_transcripts_download": self.show_transcripts_download,
         }
 
         frag = Fragment(loader.render_template('static/html/wistiavideo.html', context))

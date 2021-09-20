@@ -1,4 +1,3 @@
-import json
 import unittest
 
 from mock import Mock, patch
@@ -35,23 +34,31 @@ class WistiaXblockTests(WistiaXblockBaseTests, unittest.TestCase):
         student_view_html = xblock.student_view()
         self.assertIn(xblock.media_id, student_view_html.body_html())
 
+
 class WistiaXblockTranscriptsDownloadTests(WistiaXblockBaseTests, unittest.TestCase):
-    def __render_html(self):
-        xblock = self.make_xblock()
+    def __render_html(self, **kwargs):
+        xblock = self.make_xblock(**kwargs)
         return xblock.student_view().body_html()
 
-    def test_transcripts_block_exists(self):
-        self.assertIn("wistia_responsive_download_buttons", self.__render_html())
-
     def test_download_buttons_exist(self):
-        self.assertIn("wistia_captions_download", self.__render_html())
-        self.assertIn("wistia_transcripts_download", self.__render_html())
+        self.assertIn("wistia_captions_download", self.__render_html(show_captions_download=True))
+        self.assertIn("wistia_transcripts_download", self.__render_html(show_transcripts_download=True))
+
+    def test_no_captions_download_button(self):
+        self.assertNotIn("wistia_captions_download", self.__render_html(show_captions_download=False))
+
+    def test_no_transcripts_download_button(self):
+        self.assertNotIn("wistia_transcripts_download", self.__render_html(show_transcripts_download=False))
 
     def test_access_token_not_set(self):
         media_id = "12345abcde"
         href = "https://example.wistia.com/medias/{}".format(media_id)
 
-        xblock = self.make_xblock(href=href)
+        xblock = self.make_xblock(
+            href=href,
+            show_captions_download=True,
+            show_transcripts_download=True,
+        )
         rendered_html = xblock.student_view().body_html()
 
         self.assertFalse(xblock.has_access_token)
@@ -64,7 +71,12 @@ class WistiaXblockTranscriptsDownloadTests(WistiaXblockBaseTests, unittest.TestC
         media_id = "12345abcde"
         href = "https://example.wistia.com/medias/{}".format(media_id)
 
-        xblock = self.make_xblock(href=href, access_token="token")
+        xblock = self.make_xblock(
+            href=href,
+            access_token="token",
+            show_captions_download=True,
+            show_transcripts_download=True,
+        )
         rendered_html = xblock.student_view().body_html()
 
         self.assertTrue(xblock.has_access_token)
@@ -89,7 +101,9 @@ class WistiaXblockTranscriptsDownloadTests(WistiaXblockBaseTests, unittest.TestC
 
         xblock = self.make_xblock(
             href=href,
-            access_token=expected_token
+            access_token=expected_token,
+            show_captions_download=True,
+            show_transcripts_download=True,
         )
 
         response = xblock.download_captions(Mock())
@@ -106,6 +120,7 @@ class WistiaXblockTranscriptsDownloadTests(WistiaXblockBaseTests, unittest.TestC
             expected_url,
             params={"access_token": expected_token}
         )
+
 
 class WistiaXblockValidationTests(WistiaXblockBaseTests, unittest.TestCase):
     def test_validate_correct_inputs(self):
@@ -124,7 +139,7 @@ class WistiaXblockValidationTests(WistiaXblockBaseTests, unittest.TestCase):
             self.assertFalse(validation.add.called)
 
     @patch('xblock.validation.ValidationMessage')
-    def test_validate_incorrect_inputs(self, ValidationMessage):
+    def test_validate_incorrect_inputs(self, _):
         xblock = self.make_xblock()
 
         data = Mock(href='http://youtube.com/watch?v=something')
