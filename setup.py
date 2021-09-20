@@ -22,7 +22,7 @@ def package_data(pkg, roots):
 
 setup(
     name='wistiavideo-xblock',
-    version='0.5',
+    version='1.0.0',
     description='wistiavideo XBlock',   # TODO: write a better description.
     license='GPL v3',
     packages=[
