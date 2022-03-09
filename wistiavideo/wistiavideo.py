@@ -23,7 +23,7 @@ from xblockutils.resources import ResourceLoader
 from xblockutils.studio_editable import StudioEditableXBlockMixin
 from webob import Response
 
-_ = lambda text: text
+_ = lambda text: text  # noqa
 
 loader = ResourceLoader(__name__)
 # From official Wistia documentation. May change in the future
@@ -150,7 +150,8 @@ class WistiaVideoXBlock(StudioEditableXBlockMixin, AssetsDownloadMixin, XBlock):
     display_name = String(
         default='Wistia video',
         display_name=_('Component Display Name'),
-        help=_('The name students see. This name appears in the course ribbon and as a header for the video.'),
+        help=_('The name students see. '
+               'This name appears in the course ribbon and as a header for the video.'),
         scope=Scope.settings,
     )
 
