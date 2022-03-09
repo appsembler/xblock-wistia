@@ -41,14 +41,18 @@ class WistiaXblockTranscriptsDownloadTests(WistiaXblockBaseTests, unittest.TestC
         return xblock.student_view().body_html()
 
     def test_download_buttons_exist(self):
-        self.assertIn("wistia_captions_download", self.__render_html(show_captions_download=True))
-        self.assertIn("wistia_transcripts_download", self.__render_html(show_transcripts_download=True))
+        self.assertIn("wistia_captions_download",
+                      self.__render_html(show_captions_download=True))
+        self.assertIn("wistia_transcripts_download",
+                      self.__render_html(show_transcripts_download=True))
 
     def test_no_captions_download_button(self):
-        self.assertNotIn("wistia_captions_download", self.__render_html(show_captions_download=False))
+        self.assertNotIn("wistia_captions_download",
+                         self.__render_html(show_captions_download=False))
 
     def test_no_transcripts_download_button(self):
-        self.assertNotIn("wistia_transcripts_download", self.__render_html(show_transcripts_download=False))
+        self.assertNotIn("wistia_transcripts_download",
+                         self.__render_html(show_transcripts_download=False))
 
     def test_access_token_not_set(self):
         media_id = "12345abcde"
